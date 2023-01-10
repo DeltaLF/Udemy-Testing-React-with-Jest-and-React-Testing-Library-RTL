@@ -7,19 +7,18 @@ export function replaceCamelWithSpaces(color){
   // or (reg, ' $1')
   return  color.replace(reg,function(letter){return (' ' + letter)})
 }
-console.log(replaceCamelWithSpaces('asfsfASfLFsffsAS'))
 function App() {
-  const [buttonColor, setButtonColor] = useState('red');
+  const [buttonColor, setButtonColor] = useState('mediumvioletred');
   const [isDisable, setIsDisable] = useState(false);
 
   function buttonClickHandler(e){
-    if(buttonColor === 'red'){
-      setButtonColor('blue');
+    if(buttonColor === 'mediumvioletred'){
+      setButtonColor('midnightblue');
     }else{
-      setButtonColor('red');
+      setButtonColor('mediumvioletred');
     }
   }
-  const colorToBeChanged = buttonColor === 'red' ? 'blue' : 'red';
+  const colorToBeChanged = buttonColor === 'mediumvioletred' ? 'midnightblue' : 'mediumvioletred';
   
   return (
     <div className="App">
