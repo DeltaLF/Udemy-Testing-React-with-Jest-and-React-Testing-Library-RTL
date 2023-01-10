@@ -33,7 +33,7 @@ test('check box and button inital state',()=>{
 
 test('check and uncheck checkbox',()=>{
   render(<App />);
-  const checkbox = screen.getByRole('checkbox',{id:'disable-button-checkbox'});
+  const checkbox = screen.getByRole('checkbox',{name:'disable button',id:'disable-button-checkbox'});
   const button = screen.getByRole('button', {name:'change to blue'})
   // check checkbox
   fireEvent.click(checkbox);

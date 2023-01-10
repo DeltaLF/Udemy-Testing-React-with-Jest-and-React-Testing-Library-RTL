@@ -26,6 +26,7 @@ function App() {
         name='disable button' 
         onChange={(e)=>{ setIsDisable(e.target.checked)}}
         />
+      <label htmlFor='disable-button-checkbox'>disable button</label>
     </div>
   );
 }
