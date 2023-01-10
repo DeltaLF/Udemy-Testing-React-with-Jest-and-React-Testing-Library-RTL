@@ -45,3 +45,22 @@ test('check and uncheck checkbox',()=>{
   expect(button).not.toHaveAttribute('disabled');
   
 });
+
+test('button should be gray when disabled',()=>{
+  render(<App />);
+  const button = screen.getByRole('button', {name:'change to blue'});
+  const checkbox = screen.getByRole('checkbox', {name:'disable button'});
+  // inital state is red
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({backgroundColor:'gray'});
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({backgroundColor:'red'});
+  // inital state is blue
+  fireEvent.click(button);
+  expect(button).toHaveStyle({backgroundColor:'blue'});
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({backgroundColor:'gray'});
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({backgroundColor:'blue'});
+
+})

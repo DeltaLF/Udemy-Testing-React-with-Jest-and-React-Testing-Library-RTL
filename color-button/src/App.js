@@ -17,7 +17,7 @@ function App() {
   
   return (
     <div className="App">
-      <button style={{backgroundColor: buttonColor }} onClick={buttonClickHandler} disabled={isDisable}>
+      <button style={{backgroundColor: isDisable ? 'gray' : buttonColor }} onClick={buttonClickHandler} disabled={isDisable}>
         {`change to ${colorToBeChanged}`}
       </button>
       <input
