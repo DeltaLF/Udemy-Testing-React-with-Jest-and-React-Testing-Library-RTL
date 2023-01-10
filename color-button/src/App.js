@@ -4,6 +4,7 @@ import './App.css';
 
 function App() {
   const [buttonColor, setButtonColor] = useState('red');
+  const [isDisable, setIsDisable] = useState(false);
 
   function buttonClickHandler(e){
     if(buttonColor === 'red'){
@@ -16,9 +17,15 @@ function App() {
   
   return (
     <div className="App">
-      <button style={{backgroundColor: buttonColor }} onClick={buttonClickHandler}>
+      <button style={{backgroundColor: buttonColor }} onClick={buttonClickHandler} disabled={isDisable}>
         {`change to ${colorToBeChanged}`}
       </button>
+      <input
+        id="disable-button-checkbox" 
+        type="checkbox" 
+        name='disable button' 
+        onChange={(e)=>{ setIsDisable(e.target.checked)}}
+        />
     </div>
   );
 }
