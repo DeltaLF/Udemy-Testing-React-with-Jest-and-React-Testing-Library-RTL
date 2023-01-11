@@ -1,9 +1,8 @@
-import logo from './logo.svg';
 import { useState } from 'react';
 import './App.css';
 
 export function replaceCamelWithSpaces(color){
-  const reg = /\B[A-Z]\B/g
+  const reg = /\B[A-Z]\B/g;
   // or (reg, ' $1')
   return  color.replace(reg,function(letter){return (' ' + letter)})
 }
