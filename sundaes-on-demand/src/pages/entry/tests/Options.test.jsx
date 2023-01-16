@@ -1,4 +1,9 @@
-import { findAllByRole, redner, render, screen } from "@testing-library/react";
+import {
+  findAllByRole,
+  redner,
+  render,
+  screen,
+} from "../../../test-utils/testing-library-utils";
 import Options from "../Option";
 
 test("displays image for each scoop option from server", async () => {

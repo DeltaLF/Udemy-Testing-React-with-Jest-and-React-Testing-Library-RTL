@@ -1,4 +1,9 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+} from "../../../test-utils/testing-library-utils";
+
 import OrderEntry from "../OrderEntry";
 import { rest } from "msw";
 import { server } from "../../../../mock/server";
@@ -20,8 +25,6 @@ test.only("handles error for scoops and toppings routes", async () => {
   //   const alerts = await screen.findAllByRole("alert", {
   //     name: /An unexpected error occured. Please try again later./i,
   //   });
-  console.dir(alerts[0]);
-  console.log(alerts[0]);
   expect(alerts).toHaveLength(2);
   //   await waitFor(async () => {
   //     const alerts = await screen.findAllByRole("alert", {
