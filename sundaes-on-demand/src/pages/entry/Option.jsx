@@ -21,6 +21,18 @@ export default function Options({ optionType }) {
       })
       .catch((err) => {
         setIsServerError(true);
+        // if (optionType === "toppings") {
+        //   setItems([
+        //     { name: "Cherries", imagePath: "/images/cherries.png" },
+        //     { name: "M&Ms", imagePath: "/images/M&Ms.png" },
+        //     { name: "Hot fudge", imagePath: "/images/hot-fudge.png" },
+        //   ]);
+        // } else if (optionType === "scoops") {
+        //   setItems([
+        //     { name: "Chocolate", imagePath: "/images/chocolate.png" },
+        //     { name: "Vanilla", imagePath: "/images/vanilla.png" },
+        //   ]);
+        // }
       });
   }, [optionType]);
   if (isServerError) return <AlertBanner />;
