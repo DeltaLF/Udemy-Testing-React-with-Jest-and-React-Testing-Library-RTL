@@ -42,11 +42,19 @@ export function OrderDetailsProvider(props) {
     scoops: calculateTotal("scoops"),
     toppings: calculateTotal("toppings"),
   };
+  function getGrandTotal() {
+    let grandTotal = 0;
+    for (let type in totals) {
+      grandTotal += totals[type];
+    }
+    return grandTotal;
+  }
   const value = {
     optionCounts,
     totals,
     updateItemCount,
     resetOrder,
+    getGrandTotal,
   };
   return <OrderDetails.Provider value={value} {...props} />;
 }
