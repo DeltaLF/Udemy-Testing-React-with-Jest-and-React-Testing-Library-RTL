@@ -1,5 +1,5 @@
 import SummaryForm from "../SummaryForm";
-import { render, fireEvent, screen, findByText } from "@testing-library/react";
+import { render, screen } from "../../../test-utils/testing-library-utils";
 import userEvent from "@testing-library/user-event";
 
 test("checkbox default and clicked inital state", () => {

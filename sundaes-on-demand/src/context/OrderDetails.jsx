@@ -14,6 +14,7 @@ export function useOrderDetails() {
 }
 
 export function OrderDetailsProvider(props) {
+  const [orderNumber, setOrderNumber] = useState(0);
   const [optionCounts, setOptionCounts] = useState({
     scoops: {}, // {Chocolate:1, Vanilla:3}
     toppings: {}, // {"Gummi Bears":5}
@@ -52,6 +53,8 @@ export function OrderDetailsProvider(props) {
   const value = {
     optionCounts,
     totals,
+    orderNumber,
+    setOrderNumber,
     updateItemCount,
     resetOrder,
     getGrandTotal,

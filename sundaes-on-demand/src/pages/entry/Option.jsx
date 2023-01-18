@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import ScoopOption from "./ScoopOption";
 import ToppingOption from "./ToppingOption";
 import Row from "react-bootstrap/Row";
@@ -12,7 +12,6 @@ export default function Options({ optionType }) {
   const [items, setItems] = useState([]);
   const [isServerError, setIsServerError] = useState(false);
   const { totals } = useOrderDetails();
-  const effectRan = useRef(false);
   useEffect(() => {
     /**
      *  fix for strict mode:
@@ -21,27 +20,24 @@ export default function Options({ optionType }) {
      *
      *  solution: add useRef to make should the fetch is only executed once
      */
-    if (effectRan.current === false) {
-      // option type is scoops or toppings
-      // create an abortController to attach to network request
-      const controller = new AbortController();
-      axios
-        .get(`http://localhost:3030/${optionType}`, {
-          signal: controller.signal,
-        })
-        .then((response) => {
-          setItems(response.data);
-        })
-        .catch((err) => {
-          if (err.name === "CanceledError") return;
-          setIsServerError(true);
-        });
-      // abort axios call on component unmount
-      return () => {
-        effectRan.current = true;
-        controller.abort();
-      };
-    }
+    // option type is scoops or toppings
+    // create an abortController to attach to network request
+    const controller = new AbortController();
+    axios
+      .get(`http://localhost:3030/${optionType}`, {
+        signal: controller.signal,
+      })
+      .then((response) => {
+        setItems(response.data);
+      })
+      .catch((err) => {
+        if (err.name === "CanceledError") return;
+        setIsServerError(true);
+      });
+    // abort axios call on component unmount
+    return () => {
+      controller.abort();
+    };
   }, [optionType]);
 
   if (isServerError) return <AlertBanner />;
