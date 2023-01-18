@@ -14,7 +14,7 @@ export function useOrderDetails() {
 }
 
 export function OrderDetailsProvider(props) {
-  const [orderNumber, setOrderNumber] = useState(0);
+  const [orderNumber, setOrderNumber] = useState(null);
   const [optionCounts, setOptionCounts] = useState({
     scoops: {}, // {Chocolate:1, Vanilla:3}
     toppings: {}, // {"Gummi Bears":5}

@@ -5,7 +5,7 @@ import App from "../App";
 
 test("order phases for happ path", async () => {
   // render the app
-  render(<App />);
+  const { unmount } = render(<App />);
   // initalize user
   const user = userEvent.setup();
   // add ice cream scoops and toppings
@@ -22,6 +22,7 @@ test("order phases for happ path", async () => {
   await user.click(checkOrder);
 
   // check summary information based on order
+  const summaryHeader = screen.getByRole("heading", { name: /Order summary/i });
   const scoopsTotal = await screen.findByText("Scoops: $4.00");
   const toppingsTotal = await screen.findByText("Toppings: $1.50");
 
@@ -35,9 +36,13 @@ test("order phases for happ path", async () => {
     name: /confirm order/i,
   });
   await user.click(confirmOrder);
-
+  const headerSync = screen.getByRole("heading", { name: /loading/i });
+  const headerAsync = await screen.findByRole("heading", { name: /999/i });
   // check politeness exsists
+
   const politeness = await screen.findByText("Thank you");
+  const loadingAsync = screen.queryByRole("heading", { name: /loading/i });
+  expect(loadingAsync).not.toBeInTheDocument();
 
   // click "new order" button  on confirmation page
   const newOrder = await screen.findByRole("button", {
@@ -49,4 +54,5 @@ test("order phases for happ path", async () => {
   const upadtedGrandTotal = await screen.findByText("Grand total: $0.00");
 
   // do we need to awiat anything to avoid test errors?
+  unmount();
 });

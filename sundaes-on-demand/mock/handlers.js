@@ -21,6 +21,6 @@ export const handlers = [
     );
   }),
   rest.post(`${URL}order`, (req, res, ctx) => {
-    return res(ctx.json({ orderNumber: 100 }));
+    return res(ctx.json({ orderNumber: 999 }));
   }),
 ];
