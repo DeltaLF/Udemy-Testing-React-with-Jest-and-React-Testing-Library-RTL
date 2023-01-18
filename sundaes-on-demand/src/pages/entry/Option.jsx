@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ScoopOption from "./ScoopOption";
 import ToppingOption from "./ToppingOption";
 import Row from "react-bootstrap/Row";
@@ -12,35 +12,38 @@ export default function Options({ optionType }) {
   const [items, setItems] = useState([]);
   const [isServerError, setIsServerError] = useState(false);
   const { totals } = useOrderDetails();
+  const effectRan = useRef(false);
   useEffect(() => {
-    // option type is scoops or toppings
-    // create an abortController to attach to network request
-    const controller = new AbortController();
-    axios
-      .get(`http://localhost:3030/${optionType}`, { signal: controller.signal })
-      .then((response) => {
-        setItems(response.data);
-      })
-      .catch((err) => {
-        setIsServerError(true);
-        //   if (optionType === "toppings") {
-        //     setItems([
-        //       { name: "Cherries", imagePath: "/images/cherries.png" },
-        //       { name: "M&Ms", imagePath: "/images/M&Ms.png" },
-        //       { name: "Hot fudge", imagePath: "/images/hot-fudge.png" },
-        //     ]);
-        //   } else if (optionType === "scoops") {
-        //     setItems([
-        //       { name: "Chocolate", imagePath: "/images/chocolate.png" },
-        //       { name: "Vanilla", imagePath: "/images/vanilla.png" },
-        //     ]);
-        //   }
-      });
-    // abort axios call on component unmount
-    return () => {
-      controller.abort();
-    };
+    /**
+     *  fix for strict mode:
+     * in strict mode one component is mount twice
+     * this cause unnecessary axios fetech and abort controller error
+     *
+     *  solution: add useRef to make should the fetch is only executed once
+     */
+    if (effectRan.current === false) {
+      // option type is scoops or toppings
+      // create an abortController to attach to network request
+      const controller = new AbortController();
+      axios
+        .get(`http://localhost:3030/${optionType}`, {
+          signal: controller.signal,
+        })
+        .then((response) => {
+          setItems(response.data);
+        })
+        .catch((err) => {
+          if (err.name === "CanceledError") return;
+          setIsServerError(true);
+        });
+      // abort axios call on component unmount
+      return () => {
+        effectRan.current = true;
+        controller.abort();
+      };
+    }
   }, [optionType]);
+
   if (isServerError) return <AlertBanner />;
   const ItemComponent = optionType === "scoops" ? ScoopOption : ToppingOption;
 

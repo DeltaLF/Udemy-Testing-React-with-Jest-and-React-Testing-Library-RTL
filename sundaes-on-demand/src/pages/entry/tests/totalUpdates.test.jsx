@@ -98,7 +98,7 @@ describe("grand total", () => {
     expect(grandTotal).toHaveTextContent("$5.50");
   });
   test("grand total updates properly if item is removed", async () => {
-    jest.setTimeout(10);
+    jest.setTimeout(10000);
     render(<OrderEntry />);
     const grandTotal = screen.getByText("Grand total: $", { exact: false });
     const cherries = await screen.findByRole("checkbox", { name: /Cherries/i });
