@@ -13,20 +13,7 @@ function App() {
     <Container>
       <OrderDetailsProvider>
         {/* Summary page and entry page need provider */}
-        {THREEPHASES[phase] === "ENTRY" && (
-          <>
-            <OrderEntry />
-            <Button
-              variant="warning"
-              style={{ marginTop: "1rem" }}
-              onClick={() => {
-                setPhase(1);
-              }}
-            >
-              Check order
-            </Button>
-          </>
-        )}
+        {THREEPHASES[phase] === "ENTRY" && <OrderEntry setPhase={setPhase} />}
         {THREEPHASES[phase] === "REVIEW" && (
           <OrderSummary setPhase={setPhase} />
         )}

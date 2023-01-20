@@ -94,6 +94,7 @@ test("do not show scoops if it's slected then unselect ", async () => {
   const chocolate = await screen.findByRole("spinbutton", {
     name: /Chocolate/i,
   });
+
   await user.type(chocolate, "2");
   await user.clear(chocolate);
   await user.type(chocolate, "0");
