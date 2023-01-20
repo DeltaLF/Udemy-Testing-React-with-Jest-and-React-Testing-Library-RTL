@@ -1,5 +1,5 @@
 // no need wrap because whole app is imported
-import { render, screen } from "@testing-library/react";
+import { findByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
 
@@ -54,5 +54,65 @@ test("order phases for happ path", async () => {
   const upadtedGrandTotal = await screen.findByText("Grand total: $0.00");
 
   // do we need to awiat anything to avoid test errors?
+  unmount();
+});
+
+test("do not show scoops or toppings if they are not selected ", async () => {
+  const { unmount } = render(<App />);
+  const user = userEvent.setup();
+  // select scoops
+
+  const chocolate = await screen.findByRole("spinbutton", {
+    name: /Chocolate/i,
+  });
+  await user.type(chocolate, "2");
+
+  // clcik check button without selecting toppings
+  const checkOrderButton = await screen.findByRole("button", {
+    name: /Check order/i,
+  });
+  await user.click(checkOrderButton);
+
+  // check the header of toppings should not appear
+  const scoopsSummary = screen.queryByRole("heading", {
+    name: /Scoops: \$/i,
+  });
+  expect(scoopsSummary).toBeInTheDocument();
+
+  const toppingsSummary = screen.queryByRole("heading", {
+    name: /toppings: \$/i,
+  });
+  expect(toppingsSummary).not.toBeInTheDocument();
+  unmount();
+});
+
+test("do not show scoops if it's slected then unselect ", async () => {
+  const { unmount } = render(<App />);
+  const user = userEvent.setup();
+  // select scoops
+
+  const chocolate = await screen.findByRole("spinbutton", {
+    name: /Chocolate/i,
+  });
+  await user.type(chocolate, "2");
+  await user.clear(chocolate);
+  await user.type(chocolate, "0");
+
+  // clcik check button without selecting toppings
+  const checkOrderButton = await screen.findByRole("button", {
+    name: /Check order/i,
+  });
+  await user.click(checkOrderButton);
+
+  // check the header of toppings should not appear
+  const scoopsSummary = screen.queryByRole("heading", {
+    name: /Scoops: \$/i,
+  });
+  expect(scoopsSummary).not.toBeInTheDocument();
+
+  const toppingsSummary = screen.queryByRole("heading", {
+    name: /toppings: \$/i,
+  });
+  expect(toppingsSummary).not.toBeInTheDocument();
   unmount();
 });

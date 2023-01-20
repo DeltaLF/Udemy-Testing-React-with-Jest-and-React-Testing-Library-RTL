@@ -13,6 +13,11 @@ test("show loading before respond from server", async () => {
   const { unmount } = render(<Complete />);
 
   const headerSync = screen.getByRole("heading", { name: /loading/i });
+  expect(headerSync).toBeInTheDocument();
   const headerAsync = await screen.findByRole("heading", { name: /999/i });
+  expect(headerAsync).toBeInTheDocument();
+
+  const notLoading = screen.queryByText(/loading/i);
+  expect(notLoading).not.toBeInTheDocument();
   unmount();
 });
