@@ -2,11 +2,23 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import { useOrderDetails } from "../../context/OrderDetails";
+import { useState } from "react";
 
 export default function ScoopOption({ name, imagePath }) {
   const { updateItemCount } = useOrderDetails();
+  const [isValid, setIsValid] = useState(true);
   const handleChange = (e) => {
-    updateItemCount(name, parseInt(e.target.value), "scoops");
+    const scoopCount = parseFloat(e.target.value);
+    if (
+      scoopCount >= 0 &&
+      scoopCount <= 20 &&
+      scoopCount === Math.floor(scoopCount)
+    ) {
+      setIsValid(true);
+      updateItemCount(name, parseInt(e.target.value), "scoops");
+    } else {
+      setIsValid(false);
+    }
   };
   return (
     <Col xs={12} sm={6} md={4} lg={3} style={{ textAlign: "center" }}>
@@ -28,7 +40,11 @@ export default function ScoopOption({ name, imagePath }) {
             type="number"
             defaultValue={0}
             onChange={handleChange}
-          ></Form.Control>
+            isInvalid={!isValid}
+          />
+          <Form.Control.Feedback type="invalid">
+            Please input a positive integer that less then 20
+          </Form.Control.Feedback>
         </Col>
       </Form.Group>
     </Col>
