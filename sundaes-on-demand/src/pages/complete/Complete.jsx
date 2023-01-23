@@ -1,9 +1,11 @@
 import { useOrderDetails } from "../../context/OrderDetails";
 import Button from "react-bootstrap/Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import AlertBanner from "../common/AlertBanner";
 
 export default function Complete({ setPhase }) {
+  const [isServerError, setIsServerError] = useState(false);
   const { orderNumber, setOrderNumber, resetOrder, optionCounts } =
     useOrderDetails();
   function handleClick() {
@@ -28,6 +30,7 @@ export default function Complete({ setPhase }) {
         // updateItemCount(response.data);
       })
       .catch((err) => {
+        setIsServerError(true);
         console.log(err);
       });
     return () => {
@@ -36,12 +39,19 @@ export default function Complete({ setPhase }) {
   }, []);
   return (
     <>
-      <h2>Thank you</h2>
-      <h4>
-        {orderNumber === null
-          ? "Loading..."
-          : `Your order number is ${orderNumber.toString()}`}
-      </h4>
+      {isServerError ? (
+        <AlertBanner />
+      ) : (
+        <>
+          <h2>Thank you</h2>
+          <h4>
+            {orderNumber === null
+              ? "Loading..."
+              : `Your order number is ${orderNumber.toString()}`}
+          </h4>
+        </>
+      )}
+
       <Button style={{ marginTop: "1rem" }} onClick={handleClick}>
         Create new order
       </Button>
